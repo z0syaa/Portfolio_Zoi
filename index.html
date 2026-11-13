@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Зоя Заверина — Портфолио</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600&family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1a1a; --paper:#f4f5f0; --brown:#2c1821; --slate:#6f6f6f; --line:#dcdad4;
+  --font-head:"Oswald","Arial Narrow",Impact,sans-serif;
+  --font-body:"Arimo","Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(0.23,1,0.32,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper);overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+html.modal-open,html.modal-open body{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+p,h1,h2,h3{text-wrap:pretty}
+h1,h2,h3{font-family:var(--font-head);font-weight:400;line-height:1.05;margin:0;letter-spacing:0.03em;text-transform:uppercase}
+
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 4vw;mix-blend-mode:difference;color:#fff;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em}
+.logo{font-family:var(--font-head);font-weight:400;font-size:1.3rem;letter-spacing:0.06em;line-height:1}
+.nav-links{display:flex;gap:2rem;list-style:none;margin:0;padding:0}
+.nav-links a{cursor:pointer}
+.nav-links a:hover{opacity:.6;transition:opacity .3s}
+
+.intro-block{position:relative;overflow-x:clip;padding:160px 4vw 80px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.statement{font-size:16px;line-height:1.6;color:var(--ink);margin:0 0 1.5rem;max-width:580px}
+.cta-link{display:inline-block;font-size:.9rem;color:var(--brown);border-bottom:1px solid var(--brown);padding-bottom:2px;transition:opacity .3s;margin-bottom:50px}
+.cta-link:hover{opacity:.6}
+
+.photo-stack-container{position:relative;width:100%;max-width:800px;height:50vh;min-height:380px;display:flex;justify-content:center;align-items:center;cursor:pointer}
+.photo-front{position:relative;width:320px;height:auto;background:#fff;padding:12px;box-shadow:0 15px 35px rgba(0,0,0,.1);transform:rotate(-3deg);transition:transform .8s var(--ease);z-index:2}
+.photo-back{position:absolute;top:50%;left:50%;width:320px;height:auto;background:#fff;padding:12px;box-shadow:0 15px 35px rgba(0,0,0,.1);transform:translate(calc(-50% + 40px),-50%) rotate(4deg);transition:transform .9s var(--ease);z-index:1}
+.photo-stack-container:hover .photo-front{transform:translateX(-40px) rotate(-8deg)}
+.photo-stack-container:hover .photo-back{transform:translate(calc(-50% + 270px),-50%) rotate(8deg)}
+
+.bg-word{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:100vw;
+  text-align:center;
+  white-space:nowrap;
+  font-family:var(--font-head);
+  font-weight:500;
+  font-size:19vw;
+  line-height:1;
+  letter-spacing:-0.01em;
+  text-transform:uppercase;
+  color:rgba(44,24,33,.10);
+  filter:blur(10px);
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+  transition:filter .8s var(--ease), color .8s var(--ease);
+}
+.photo-stack-container:hover .bg-word{filter:blur(1px);color:rgba(44,24,33,.24)}
+
+.marquee-section{padding-bottom:80px;overflow:hidden;width:100%;margin-top:20px}
+.marquee-track{display:flex;width:max-content;align-items:center;gap:30px;padding-left:30px;animation:scroll 60s linear infinite;will-change:transform}
+.marquee-section:hover .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;gap:15px;align-items:center;height:350px}
+.marquee-item{height:100%;width:auto;object-fit:contain;pointer-events:none}
+.marquee-column{display:flex;flex-direction:column;gap:15px;height:100%;justify-content:space-between}
+.marquee-column .marquee-item{height:calc(50% - 7.5px);width:auto}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.works{padding:80px 4vw 40px;max-width:1600px;margin:0 auto}
+.section-title{margin-bottom:1.5rem;font-size:1.3rem;font-weight:300;letter-spacing:0.1em;color:var(--slate)}
+
+.work-row{display:flex;align-items:center;border-top:1px solid var(--line);padding:1.5rem 0;cursor:pointer;position:relative;transition:padding .5s var(--ease)}
+.work-row:last-child{border-bottom:1px solid var(--line)}
+.work-row:hover{padding:2.6rem 0}
+.work-num{font-family:var(--font-head);font-weight:300;font-size:1.05rem;color:var(--slate);width:60px;flex-shrink:0;letter-spacing:.05em;transition:color .3s}
+.work-text-block{flex:1;max-width:50%}
+.work-title{font-weight:500;font-size:clamp(1.7rem,2.9vw,2.5rem);color:var(--ink);letter-spacing:-0.005em;transition:color .3s,letter-spacing .5s var(--ease)}
+.work-desc-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.work-desc{overflow:hidden;min-height:0;opacity:0;color:var(--slate);font-size:.95rem;max-width:520px;margin:0;transition:opacity .4s var(--ease),margin .5s var(--ease)}
+.work-row:hover .work-desc-wrap{grid-template-rows:1fr}
+.work-row:hover .work-desc{opacity:1;margin-top:.8rem}
+.work-row:hover .work-title{color:var(--brown);letter-spacing:.01em}
+.work-row:hover .work-num{color:var(--brown)}
+
+.work-preview{position:absolute;right:20%;top:50%;width:230px;height:auto;opacity:0;pointer-events:none;z-index:10;box-shadow:0 20px 40px rgba(0,0,0,.18);transform:translate(0,-50%) scale(.85) rotate(-4deg);transition:opacity .4s var(--ease)}
+.work-row:hover .work-preview{opacity:1;animation:drift 7s ease-in-out infinite}
+@keyframes drift{
+  0%{transform:translate(0,-50%) scale(1) rotate(3deg)}
+  20%{transform:translate(-40px,-62%) scale(1.03) rotate(-4deg)}
+  45%{transform:translate(30px,-38%) scale(.98) rotate(6deg)}
+  70%{transform:translate(-20px,-56%) scale(1.02) rotate(-2deg)}
+  100%{transform:translate(0,-50%) scale(1) rotate(3deg)}
+}
+
+.work-open{display:flex;align-items:center;gap:12px;margin-left:auto;flex-shrink:0;opacity:0;transform:translateX(-16px);transition:all .4s var(--ease);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brown)}
+.work-open i{font-style:normal;width:44px;height:44px;border:1px solid var(--brown);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s}
+.work-row:hover .work-open{opacity:1;transform:none}
+.work-open:hover i{background:var(--brown);color:#fff}
+
+.case-modal,.resume-modal{position:fixed;inset:0;background:rgba(10,10,10,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:flex;justify-content:center;align-items:center;opacity:0;visibility:hidden;pointer-events:none;overscroll-behavior:contain;transition:opacity .25s ease,visibility 0s linear .25s}
+.case-modal.active,.resume-modal.active{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .25s ease,visibility 0s}
+.modal-inner{position:relative;width:90vw;height:90vh;height:90dvh;max-width:1400px;border-radius:14px;overflow:hidden;background:rgba(18,18,18,.6);border:1px solid rgba(255,255,255,.28);box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column}
+.modal-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.modal-scroll::-webkit-scrollbar{width:6px}
+.modal-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3);border-radius:3px}
+
+.modal-tools{position:absolute;top:16px;right:16px;display:flex;gap:10px;z-index:20}
+.glass-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;padding:0}
+.glass-btn svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.glass-btn:hover{background:rgba(255,255,255,.9);border-color:#fff}
+.glass-btn:hover svg{stroke:#000}
+
+.modal-content{display:flex;flex-direction:column;width:100%}
+.modal-content img,.modal-content video{width:100%;height:auto;display:block;border-bottom:1px solid rgba(255,255,255,.12)}
+
+.slider-container{position:relative;width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:70px 40px 40px}
+.slider-image,.slider-video{max-width:100%;max-height:100%;object-fit:contain;display:none}
+.slider-image.active,.slider-video.active{display:block}
+.slider-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.45);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;z-index:10}
+.slider-nav:hover{background:rgba(255,255,255,.9);color:#000}
+.slider-nav svg{width:22px;height:22px;stroke:currentColor}
+.slider-prev{left:30px}.slider-next{right:30px}
+.slider-counter{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:13px;letter-spacing:.1em;z-index:10}
+
+.resume-frame{width:100%;flex:1;min-height:0;border:none;background:transparent;color-scheme:dark}
+
+@media (max-width:900px){
+  .nav-links{gap:1rem;font-size:.7rem}
+  .photo-front,.photo-back{width:220px;padding:8px}
+  .photo-stack-container:hover .photo-back{transform:translate(calc(-50% + 150px),-50%) rotate(8deg)}
+  .marquee-group{height:250px}
+  .work-preview{display:none}
+  .work-text-block{max-width:100%}
+  .work-num{width:40px}
+  .work-title{font-size:clamp(1.6rem,7vw,2.1rem)}
+  .work-desc-wrap{grid-template-rows:1fr}
+  .work-desc{opacity:1;margin-top:.6rem}
+  .work-open{opacity:1;transform:none}
+  .work-open span{display:none}
+  .work-row,.work-row:hover{padding:1.5rem 0}
+  .modal-inner{width:100vw;height:100vh;height:100dvh;border-radius:0}
+  .slider-container{padding:64px 16px 24px}
+  .slider-nav{width:40px;height:40px}
+  .slider-prev{left:8px}.slider-next{right:8px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Зоя Заверина</div>
+  <ul class="nav-links">
+    <li><a onclick="openResume()">Резюме</a></li>
+    <li><a href="https://t.me/zoykina_telega" target="_blank">Обсудить проект</a></li>
+  </ul>
+</header>
+
+<section class="intro-block">
+  <p class="statement">
+    Привет! Меня зовут Зоя, я графический и коммуникационный дизайнер.<br>
+    Работала в айти, СММ-агентстве и у дистрибьюторов Villeroy&Boch.<br>
+    Люблю создавать дизайн, который можно разглядывать как картины Босха на наличие пасхалок. Хорошо работаю с текстом, умею рисовать, вязать крючком.
+  </p>
+  <a href="#works" class="cta-link">↳ Смотреть работы</a>
+  <div class="photo-stack-container">
+    <div class="bg-word" aria-hidden="true">Портфолио</div>
+    <img src="images/pic.jpg" alt="Фон" class="photo-back">
+    <img src="images/profile.png" alt="Зоя" class="photo-front">
+  </div>
+</section>
+
+<section class="marquee-section" id="marquee-container">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <img src="images/кейс_виллерой/обложка.png" class="marquee-item" alt="1">
+      <div class="marquee-column"><img src="images/кейс_лумеа/1.png" class="marquee-item" alt="2"><img src="images/кейс_гамбит/1.png" class="marquee-item" alt="3"></div>
+    </div>
+    <div class="marquee-group">
+      <img src="images/кейс_лумеа/обложка.png" class="marquee-item" alt="4">
+      <div class="marquee-column"><img src="images/кейс_виллерой/2.png" class="marquee-item" alt="5"><img src="images/кейс_гамбит/2.png" class="marquee-item" alt="6"></div>
+    </div>
+    <div class="marquee-group">
+      <img src="images/кейс_гамбит/обложка.png" class="marquee-item" alt="7">
+      <div class="marquee-column"><img src="images/кейс_лумеа/3.png" class="marquee-item" alt="8"><img src="images/кейс_виллерой/3.png" class="marquee-item" alt="9"></div>
+    </div>
+    <div class="marquee-group">
+      <img src="images/кейс_виллерой/обложка.png" class="marquee-item" alt="1">
+      <div class="marquee-column"><img src="images/кейс_лумеа/1.png" class="marquee-item" alt="2"><img src="images/кейс_гамбит/1.png" class="marquee-item" alt="3"></div>
+    </div>
+    <div class="marquee-group">
+      <img src="images/кейс_лумеа/обложка.png" class="marquee-item" alt="4">
+      <div class="marquee-column"><img src="images/кейс_виллерой/2.png" class="marquee-item" alt="5"><img src="images/кейс_гамбит/2.png" class="marquee-item" alt="6"></div>
+    </div>
+    <div class="marquee-group">
+      <img src="images/кейс_гамбит/обложка.png" class="marquee-item" alt="7">
+      <div class="marquee-column"><img src="images/кейс_лумеа/3.png" class="marquee-item" alt="8"><img src="images/кейс_виллерой/3.png" class="marquee-item" alt="9"></div>
+    </div>
+  </div>
+</section>
+
+<section class="works" id="works">
+  <h2 class="section-title">Кейсы</h2>
+
+  <div class="work-row" onclick="showModal('villeroy')">
+    <div class="work-num">01</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Villeroy & Boch</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Визуальная коммуникация официального дистрибьютора премиального немецкого бренда: digital, полиграфия, презентации и строгое соблюдение брендбука.</p></div>
+    </div>
+    <img src="images/кейс_виллерой/обложка.png" alt="Villeroy" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+
+  <div class="work-row" onclick="showModal('lumea')">
+    <div class="work-num">02</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Lumea</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Концепт кинотеатра авторского кино: логотип, фирменные цвета, дизайн билетов и визуал для социальных сетей.</p></div>
+    </div>
+    <img src="images/кейс_лумеа/обложка.png" alt="Lumea" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+
+  <div class="work-row" onclick="showModal('gambit')">
+    <div class="work-num">03</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Гамбит</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Айдентика ивент-агентства по организации шахматных турниров в барах: разработка с нуля — нейминг, логотип, стилеобразующие. Ориентир на молодую аудиторию.</p></div>
+    </div>
+    <img src="images/кейс_гамбит/обложка.png" alt="Гамбит" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+</section>
+
+<section class="works academic-section" id="academic" style="padding-top:20px;padding-bottom:100px;">
+  <h2 class="section-title">Учебные проекты</h2>
+
+  <div class="work-row" onclick="openSliderModal('social')">
+    <div class="work-num">01</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Социальный дизайн</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Серия открыток, посвященных проблеме зависимости. Неформальный стиль, упор на "героев нашего времени" для молодой аудитории.</p></div>
+    </div>
+    <img src="slides/С1.png" alt="Социальный дизайн" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+
+  <div class="work-row" onclick="openSliderModal('portraits')">
+    <div class="work-num">02</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Стилизация портретов</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Анализ визуальных приемов значимых персон в дизайне через призму заданного стиля.</p></div>
+    </div>
+    <img src="slides/П1.png" alt="Стилизация портретов" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+
+  <div class="work-row" onclick="openSliderModal('game')">
+    <div class="work-num">03</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Концепция игры</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Разработка 3D-моделей персонажей и локация для компьютерной игры-рисовалки в тематике граффити.</p></div>
+    </div>
+    <img src="slides/D1.png" alt="Концепция игры" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+
+    <div class="work-row" onclick="openSliderModal('padel')">
+    <div class="work-num">04</div>
+    <div class="work-text-block">
+      <h3 class="work-title">Падел</h3>
+      <div class="work-desc-wrap"><p class="work-desc">Знакомство с набирающим популярность видом спорта</p></div>
+    </div>
+    <img src="slides/pad1.png" alt="Падел" class="work-preview">
+    <div class="work-open"><span>Открыть</span><i>→</i></div>
+  </div>
+
+
+</section>
+
+<div class="case-modal" id="modal">
+  <div class="modal-inner">
+    <div class="modal-tools">
+      <button class="glass-btn" onclick="closeModal()" title="Закрыть"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-scroll" id="modal-inner">
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+</div>
+
+<div class="case-modal" id="slider-modal">
+  <div class="modal-inner">
+    <div class="modal-tools">
+      <button class="glass-btn" onclick="closeSliderModal()" title="Закрыть"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="slider-container">
+      <div class="slider-nav slider-prev" onclick="changeSlide(-1)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div>
+      <img src="" alt="Slide" class="slider-image active" id="slider-image">
+      <video src="" class="slider-video" id="slider-video" controls playsinline></video>
+      <div class="slider-nav slider-next" onclick="changeSlide(1)"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      <div class="slider-counter" id="slider-counter">1 / 12</div>
+    </div>
+  </div>
+</div>
+
+<div class="resume-modal" id="resume-modal">
+  <div class="modal-inner">
+    <div class="modal-tools">
+      <a class="glass-btn" href="https://drive.google.com/file/d/10ZgAqkXoMnlL0SZtG2SOpFCYgtgoLxMJ/view?usp=sharing" target="_blank" title="Открыть в новой вкладке"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      <button class="glass-btn" onclick="closeResume()" title="Закрыть"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <iframe src="https://drive.google.com/file/d/10ZgAqkXoMnlL0SZtG2SOpFCYgtgoLxMJ/preview" class="resume-frame" title="Резюме" allow="autoplay"></iframe>
+  </div>
+</div>
+
+<script>
+// --- Неразрывные пробелы: предлоги, союзы и тире не остаются в конце строки ---
+(function(){
+  const targets = document.querySelectorAll('.statement, .work-title, .work-desc, .cta-link, .section-title');
+  const re = /(^|[\s\u00A0])([A-Za-zА-Яа-яЁё]{1,3}|[—–&])[ \t\n]+/g;
+  targets.forEach(el => {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n => {
+      let t = n.nodeValue;
+      for (let i = 0; i < 2; i++) t = t.replace(re, '$1$2\u00A0');
+      t = t.replace(/[ \t\n]+([—–])/g, '\u00A0$1');
+      n.nodeValue = t;
+    });
+  });
+})();
+
+const projects = {
+  'villeroy': ['images/кейс_виллерой/1.png','images/кейс_виллерой/2.png','images/кейс_виллерой/3.png','images/кейс_виллерой/4.png','images/кейс_виллерой/5.png','images/кейс_виллерой/6.png','images/кейс_виллерой/7.png','images/кейс_виллерой/8.png'],
+  'lumea': ['images/кейс_лумеа/1.png','images/кейс_лумеа/2.gif','images/кейс_лумеа/3.png','images/кейс_лумеа/4.png'],
+  'gambit': ['images/кейс_гамбит/1.png','images/кейс_гамбит/2.png','images/кейс_гамбит/3.png','images/кейс_гамбит/4.gif','images/кейс_гамбит/5.png','images/кейс_гамбит/6.png','images/кейс_гамбит/7.png','images/кейс_гамбит/8.gif']
+};
+const slidersData = {
+  'social': { prefix: 'slides/С', count: 12, type: 'img' },
+  'portraits': { prefix: 'slides/П', count: 13, type: 'img' },
+  'game': { prefix: 'slides/D', count: 19, type: 'mixed', videoIndex: 10 },
+  'padel': { prefix: 'slides/pad', count: 12, type: 'img' }
+};
+
+const root = document.documentElement;
+const modal = document.getElementById('modal');
+const modalInner = document.getElementById('modal-inner');
+const modalContent = document.getElementById('modal-content');
+const sliderModal = document.getElementById('slider-modal');
+const sliderImage = document.getElementById('slider-image');
+const sliderVideo = document.getElementById('slider-video');
+const sliderCounter = document.getElementById('slider-counter');
+const resumeModal = document.getElementById('resume-modal');
+let currentSlideIndex = 1;
+let currentSliderData = null;
+
+function lockScroll(){ root.classList.add('modal-open'); }
+function unlockScroll(){ root.classList.remove('modal-open'); }
+
+function showModal(projectId){
+  modalContent.innerHTML = '';
+  (projects[projectId] || []).forEach(src => {
+    if (src.endsWith('.mp4')) {
+      const v = document.createElement('video');
+      v.src = src; v.controls = true; v.playsInline = true;
+      modalContent.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = src; img.alt = projectId;
+      img.onerror = function(){ this.style.display = 'none'; };
+      modalContent.appendChild(img);
+    }
+  });
+  modal.classList.add('active');
+  lockScroll();
+  modalInner.scrollTop = 0;
+}
+function closeModal(){
+  modalContent.querySelectorAll('video').forEach(v => v.pause());
+  modal.classList.remove('active');
+  unlockScroll();
+}
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+function openSliderModal(type){
+  currentSliderData = slidersData[type];
+  currentSlideIndex = 1;
+  updateSlider();
+  sliderModal.classList.add('active');
+  lockScroll();
+}
+function closeSliderModal(){
+  sliderVideo.pause();
+  sliderModal.classList.remove('active');
+  unlockScroll();
+}
+function changeSlide(dir){
+  if (!currentSliderData) return;
+  sliderVideo.pause();
+  currentSlideIndex += dir;
+  if (currentSlideIndex < 1) currentSlideIndex = currentSliderData.count;
+  if (currentSlideIndex > currentSliderData.count) currentSlideIndex = 1;
+  updateSlider();
+}
+function updateSlider(){
+  if (!currentSliderData) return;
+  sliderCounter.textContent = `${currentSlideIndex} / ${currentSliderData.count}`;
+  if (currentSliderData.type === 'mixed' && currentSlideIndex === currentSliderData.videoIndex) {
+    sliderImage.classList.remove('active');
+    sliderVideo.classList.add('active');
+    sliderVideo.src = `${currentSliderData.prefix}${currentSlideIndex}.mp4`;
+    sliderVideo.play().catch(() => {});
+  } else {
+    sliderVideo.classList.remove('active');
+    sliderImage.classList.add('active');
+    sliderImage.src = `${currentSliderData.prefix}${currentSlideIndex}.png`;
+  }
+}
+sliderModal.addEventListener('click', e => { if (e.target === sliderModal) closeSliderModal(); });
+
+function openResume(){ resumeModal.classList.add('active'); lockScroll(); }
+function closeResume(){ resumeModal.classList.remove('active'); unlockScroll(); }
+resumeModal.addEventListener('click', e => { if (e.target === resumeModal) closeResume(); });
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (modal.classList.contains('active')) closeModal();
+    if (resumeModal.classList.contains('active')) closeResume();
+    if (sliderModal.classList.contains('active')) closeSliderModal();
+  }
+  if (sliderModal.classList.contains('active')) {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  }
+});
+</script>
+</body>
+</html>
